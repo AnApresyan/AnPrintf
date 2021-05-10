@@ -8,7 +8,7 @@ int		main()
 	// printf("%-5.*s", 3, "asdsa");
 	//ft_printf("Hello %15chhh\n", 'b');
 
-	printf("%-10.5d", 9);
+	printf("%7.10s", "hello");
 	
 	
 	// printf("Zero: %d\n", t_flags.zero);
