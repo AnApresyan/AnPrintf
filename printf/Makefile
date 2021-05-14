@@ -1,34 +1,30 @@
-LIBFT = ./libft/libft.a
-
-N_TEMP = temp.a
-
 NAME = libftprintf.a
-
-SRCS =  ft_printf.c 
-		
+LIBFT = ./libft/libft.a
+SRCS = $(shell find -name '*.c') ft_printf.c	
+OBJS = ${SRCS:.c=.o}
 CC = gcc
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror
+AR = ar csr
 
-FLAGS = -c -Wall -Wextra -Werror
+.c.o :
+		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
-INCLUDES = -I./includes
+$(NAME) : ${OBJS}
+		$(MAKE) -C ./libft
+		cp $(LIBFT) ${NAME}
+		${AR} ${NAME} ${OBJS}
 
-OBJS = $(SRCS:.c=.o)
+all : ${NAME}
 
-$(NAME): $(OBJS)
-	cp libft/libft.a $(NAME)
-	$(CC) $(FLAGS) $(INCLUDES) $(SRCS)
-	$(CC) $(SRCS) -L. -lftprintf
-	ar -rcs $(NAME) $(OBJS)
-
-all : $(NAME)
-
-clean :
-	$(MAKE) clean -C ./libft
-	rm -rf $(SURPL_O) 
-	rm -rf $(OBJS)
+clean : 
+		$(MAKE) clean -C ./libft
+		${RM} ${OBJS}
 
 fclean : clean
-	$(MAKE) fclean -C ./libft
-	rm -rf $(NAME)
+		$(MAKE) fclean -C ./libft
+		${RM} ${NAME}
 
 re : fclean all
+
+.PHONY: all clean fclean bonus re .c.o
